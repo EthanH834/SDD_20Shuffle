@@ -18,7 +18,9 @@ public class gameManager : MonoBehaviour
     public TMPro.TMP_Text dealerScoreText;
     public TMPro.TMP_Text playerWinsText;
     public TMPro.TMP_Text dealerWinsText;
+    public TMPro.TMP_Text playerWinNameText;
     public TMPro.TMP_Text resultText;
+    public TMPro.TMP_Text turnText;
     public TMPro.TMP_Text winText;
     public TMPro.TMP_Text playerFinalScoreText;
     public TMPro.TMP_Text dealerFinalScoreText;
@@ -31,6 +33,7 @@ public class gameManager : MonoBehaviour
     public int playerPointCounter = 0;
     public int playerScore = 0;
     public string playerNewName;
+    int turncheck = 1;
 
     void Start()
     {
@@ -50,6 +53,7 @@ public class gameManager : MonoBehaviour
     // Shuffles the deck of cards and starts the hand    
     public void dealClick()
     {
+        turnText.text = playerNewName + " Turn " + turncheck;
         resultText.text = "";
 
         playerController.resetHand();
@@ -78,7 +82,7 @@ public class gameManager : MonoBehaviour
         {
             dealerPointCounter += 10;
             dealerWinsText.SetText(dealerPointCounter.ToString());
-            resultText.text = "dealer won 10 points";
+            resultText.text = "Dealer won 10 Points";
             dealButton.gameObject.SetActive(true);
             hitButton.gameObject.SetActive(false);
             standButton.gameObject.SetActive(false);
@@ -98,6 +102,7 @@ public class gameManager : MonoBehaviour
     {
         hitButton.gameObject.SetActive(false);
         standButton.gameObject.SetActive(false);
+        turnText.text = "Dealer Turn " + turncheck;
         hitDealer();
         dealButton.gameObject.SetActive(true);
     }
@@ -133,22 +138,23 @@ public class gameManager : MonoBehaviour
             {
                 playerPointCounter += 10;
                 playerWinsText.SetText(playerPointCounter.ToString()); 
-                resultText.text = "player won 10 points";
+                resultText.text = playerNewName + " won 10 Points";
             }
         }
 
         else if (dealerController.handValue > 20 && playerController.handValue > 20 || dealerController.handValue == playerController.handValue)
         {
             dealerWinsText.SetText(dealerPointCounter.ToString());
-            resultText.text = "nobody won any points"; 
+            resultText.text = "Nobody won any Points"; 
         }
 
         else
         {
             dealerPointCounter += 10;
             dealerWinsText.SetText(dealerPointCounter.ToString()); 
-            resultText.text = "dealer won 10 points";
+            resultText.text = "Dealer won 10 Points";
         }
+        turncheck++;
         gameOver();
     }
 
@@ -159,20 +165,20 @@ public class gameManager : MonoBehaviour
         {
             winScreen.SetActive(true);
             gameScreen.SetActive(false);
-            winText.text = "player wins";
+            winText.text = playerNewName + " Wins";
             playerScore += 1;
+            playerWinNameText.text = playerNewName + " Final Score:";
             playerFinalScoreText.SetText(playerPointCounter.ToString()); 
             dealerFinalScoreText.SetText(dealerPointCounter.ToString());
             Debug.Log("player's current wins are" + playerScore);
-
-            
         }
 
         else if (dealerPointCounter >= 100)
         {
             winScreen.SetActive(true);
             gameScreen.SetActive(false);
-            winText.text = "dealer wins";
+            winText.text = "Dealer wins";
+            playerWinNameText.text = playerNewName + " Final Score:";
             playerFinalScoreText.SetText(playerPointCounter.ToString()); 
             dealerFinalScoreText.SetText(dealerPointCounter.ToString());
         }

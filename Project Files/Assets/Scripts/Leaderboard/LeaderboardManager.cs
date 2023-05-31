@@ -8,7 +8,8 @@ public class LeaderboardManager : MonoBehaviour
     [SerializeField] private Transform highscoresHolderTransform = null;
     [SerializeField] private GameObject scoreboardEntryObject = null;
 
-    private string SavePath => $"{Application.persistentDataPath}/playerData.json";
+    private string SavePath => Application.persistentDataPath + "/playerData.json";
+    int leaderboardLimit = 1;
 
     private void Start()
     {
@@ -37,16 +38,27 @@ public class LeaderboardManager : MonoBehaviour
                         var tempVar = savedScores.highscores[j].playerScore;
                         savedScores.highscores[j].playerScore = savedScores.highscores[j + 1].playerScore;
                         savedScores.highscores[j + 1].playerScore = tempVar;
+
+                        string tempString = savedScores.highscores[j].playerName;
+                        savedScores.highscores[j].playerName = savedScores.highscores[j + 1].playerName;
+                        savedScores.highscores[j + 1].playerName = tempString;
                     }
                 }
             }
         }
 
+
         foreach (playerData playerdata in savedScores.highscores)
         {
             //Debug.Log("done one");
             Instantiate(scoreboardEntryObject, highscoresHolderTransform).GetComponent<LeaderboardUI>().initialise(playerdata);
+            leaderboardLimit++;
+            if (leaderboardLimit >= 6)
+            {
+                break;
+            }
         }
+        leaderboardLimit = 1;
     }
 
     private LeaderboardSaveData getSavedScores()

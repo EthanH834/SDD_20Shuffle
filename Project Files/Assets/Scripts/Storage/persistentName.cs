@@ -27,8 +27,8 @@ public class persistentName : MonoBehaviour
             Destroy(gameObject);
         }
 
-        inputField.characterLimit = 15;
-        inputField2.characterLimit = 15;
+        inputField.characterLimit = 10;
+        inputField2.characterLimit = 10;
     }
 
     public void Update()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class saveData : MonoBehaviour
 {
     public gameManager gameManager;
@@ -14,6 +15,7 @@ public class saveData : MonoBehaviour
 
         Debug.Log(playerdata.playerScore);
         Debug.Log(playerdata.playerName);
+        saveToJSON();
     }
 
     public void saveToJSON()
@@ -21,6 +23,7 @@ public class saveData : MonoBehaviour
         // Read existing JSON data
         string filePath = Application.persistentDataPath + "/playerData.json";
         string existingJson = System.IO.File.ReadAllText(filePath);
+        Debug.Log(filePath);
 
         Debug.Log("Existing JSON: " + existingJson); // Debug output
 
