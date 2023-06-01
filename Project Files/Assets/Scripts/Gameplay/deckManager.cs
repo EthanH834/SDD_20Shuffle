@@ -9,6 +9,7 @@ public class deckManager : MonoBehaviour
     public Sprite[] cardSprites;
     public Sprite[] cardBack;
 
+    // Array for values of each card
     public int[] cardValue = new int[55];
 
     int curIndex = 0;
@@ -64,6 +65,7 @@ public class deckManager : MonoBehaviour
         curIndex = 1;
     }
 
+    // Applys sprite and value to a card. Setup for getCard()
     public int dealCards(cardSetup cardSetup)
     {
         cardSetup.setSprite(cardSprites[curIndex]);

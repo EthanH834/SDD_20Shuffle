@@ -24,6 +24,7 @@ public class cardSetup : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
     }
 
+    // Resets value of card to zero and hides the sprite
     public void resetCard()
     {
         Sprite back = GameObject.Find("Deck").GetComponent<deckManager>().displayBackCard();

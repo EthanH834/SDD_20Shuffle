@@ -27,6 +27,7 @@ public class persistentName : MonoBehaviour
             Destroy(gameObject);
         }
 
+        // Character limit for input fields
         inputField.characterLimit = 10;
         inputField2.characterLimit = 10;
     }
@@ -35,8 +36,8 @@ public class persistentName : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
-        Debug.Log("Scene name is " + sceneName);
-
+        
+        // Destroy name object if quit game 
         if (sceneName == "Main Menu")
         {
             Destroy(gameObject);
@@ -48,12 +49,12 @@ public class persistentName : MonoBehaviour
     {
         playerName = inputField.text;
 
+        // Set default player name if no name is given
         if (playerName == "")
         {
             playerName = "Player 1";
         }
 
-        Debug.Log(playerName);
         // Loads Game Screen
         SceneManager.LoadScene(4);
     }
@@ -63,6 +64,7 @@ public class persistentName : MonoBehaviour
         playerName = inputField.text;
         player2Name = inputField2.text;
 
+        // Set default player name if no name is given
         if (playerName == "")
         {
             playerName = "Player 1";
@@ -72,8 +74,7 @@ public class persistentName : MonoBehaviour
         {
             player2Name = "Player 2";
         }
-        Debug.Log(playerName);
-        Debug.Log(player2Name);
+
         // Loads Game Screen
         SceneManager.LoadScene(5);
     }

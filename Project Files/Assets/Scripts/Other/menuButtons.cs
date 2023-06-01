@@ -40,7 +40,7 @@ public class menuButtons : MonoBehaviour
 
     public void restartGame()
     {
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // Enable/Disable UI elements
         gameManager.winScreen.SetActive(false);
         gameManager.gameScreen.SetActive(true);
         gameManager.dealButton.gameObject.SetActive(true);
@@ -52,6 +52,22 @@ public class menuButtons : MonoBehaviour
         gameManager.playerPointCounter = 0;
 
         gameManager.dealClick();
+    }
+
+    public void restartGame2(gameManagerTwo gameManagerTwo)
+    {
+        // Enable/Disable UI elements
+        gameManagerTwo.winScreen.SetActive(false);
+        gameManagerTwo.gameScreen.SetActive(true);
+        gameManagerTwo.dealButton.gameObject.SetActive(true);
+        gameManagerTwo.hitButton.gameObject.SetActive(false);
+        gameManagerTwo.standButton.gameObject.SetActive(false);
+        gameManagerTwo.swapButton.gameObject.SetActive(false);
+
+        gameManagerTwo.dealerPointCounter = 0;
+        gameManagerTwo.playerPointCounter = 0;
+
+        gameManagerTwo.dealClick();
     }
 
     public void quitGame()

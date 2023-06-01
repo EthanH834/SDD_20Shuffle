@@ -1,0 +1,36 @@
+{
+    "highscores": [
+        {
+            "playerName": "hello",
+            "playerScore": 1
+        },
+        {
+            "playerName": "lean",
+            "playerScore": 1
+        },
+        {
+            "playerName": "Ethan",
+            "playerScore": 2
+        },
+        {
+            "playerName": "guzman",
+            "playerScore": 1
+        },
+        {
+            "playerName": "Gloomy",
+            "playerScore": 7
+        },
+        {
+            "playerName": "esa",
+            "playerScore": 1
+        },
+        {
+            "playerName": "vxc",
+            "playerScore": 1
+        },
+        {
+            "playerName": "vxc",
+            "playerScore": 1
+        }
+    ]
+}

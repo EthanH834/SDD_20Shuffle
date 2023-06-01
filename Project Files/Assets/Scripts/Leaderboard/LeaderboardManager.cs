@@ -5,27 +5,29 @@ using System.IO;
 
 public class LeaderboardManager : MonoBehaviour
 {
+    // 
     [SerializeField] private Transform highscoresHolderTransform = null;
     [SerializeField] private GameObject scoreboardEntryObject = null;
 
-    private string SavePath => Application.persistentDataPath + "/playerData.json";
+    // Save to streamingAssets folder
+    private string savePath => Application.streamingAssetsPath + "/playerData.json";
     int leaderboardLimit = 1;
 
     private void Start()
     {
         LeaderboardSaveData savedScores = getSavedScores();
-        //Debug.Log(savedScores);
         updateUI(savedScores);
     }
 
     private void updateUI(LeaderboardSaveData savedScores)
     {
-        //Debug.Log("start");
+        // Deletes old leaderboard data
         foreach (Transform child in highscoresHolderTransform)
         {
             Destroy(child.gameObject);
         }
 
+        // Sorts leaderboard data contained within the list
         var n = savedScores.highscores.Count;
         foreach (playerData playerdata in savedScores.highscores)
         {
@@ -33,12 +35,15 @@ public class LeaderboardManager : MonoBehaviour
             {
                 for (int j = 0; j < n - i - 1; j++)
                 {
+                    // Sort by player score in descending order
                     if (savedScores.highscores[j].playerScore < savedScores.highscores[j + 1].playerScore)
                     {
+                        // Sort player scores
                         var tempVar = savedScores.highscores[j].playerScore;
                         savedScores.highscores[j].playerScore = savedScores.highscores[j + 1].playerScore;
                         savedScores.highscores[j + 1].playerScore = tempVar;
 
+                        // Sort player name
                         string tempString = savedScores.highscores[j].playerName;
                         savedScores.highscores[j].playerName = savedScores.highscores[j + 1].playerName;
                         savedScores.highscores[j + 1].playerName = tempString;
@@ -47,12 +52,13 @@ public class LeaderboardManager : MonoBehaviour
             }
         }
 
-
+        // Creates new leaderboard items
         foreach (playerData playerdata in savedScores.highscores)
         {
-            //Debug.Log("done one");
             Instantiate(scoreboardEntryObject, highscoresHolderTransform).GetComponent<LeaderboardUI>().initialise(playerdata);
             leaderboardLimit++;
+
+            // Limit of 5 items
             if (leaderboardLimit >= 6)
             {
                 break;
@@ -61,18 +67,18 @@ public class LeaderboardManager : MonoBehaviour
         leaderboardLimit = 1;
     }
 
+    // Retrieves saved scores from JSON
     private LeaderboardSaveData getSavedScores()
     {
-        if (!File.Exists(SavePath))
+        if (!File.Exists(savePath))
         {
-            File.Create(SavePath).Dispose();
+            File.Create(savePath).Dispose();
             return new LeaderboardSaveData();
         }
 
-        using (StreamReader stream = new StreamReader(SavePath))
+        using (StreamReader stream = new StreamReader(savePath))
         {
             string json = stream.ReadToEnd();
-            //Debug.Log(json);
             return JsonUtility.FromJson<LeaderboardSaveData>(json);
         }
     }

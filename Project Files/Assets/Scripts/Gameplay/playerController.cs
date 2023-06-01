@@ -7,6 +7,7 @@ public class playerController : MonoBehaviour
 {
     public cardSetup cardSetup;
     public deckManager deckManager;
+    public gameManager gameManager;
 
     public GameObject[] hand;
     public int handValue = 0;
@@ -32,8 +33,6 @@ public class playerController : MonoBehaviour
         int cardValue = deckManager.dealCards(hand[cardIndex].GetComponent<cardSetup>());
         hand[cardIndex].GetComponent<Renderer>().enabled = true;
 
-
-        //Debug.Log("card value is " + cardValue);
         // Changes the value of aces
         if (cardValue == 1 && handValue < 10)  
         {
@@ -41,7 +40,6 @@ public class playerController : MonoBehaviour
         }
 
         cardCount++;
-        //Debug.Log("card count is " + cardCount);
         handValue += cardValue;
         cardIndex++;
         return handValue;

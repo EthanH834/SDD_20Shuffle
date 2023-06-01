@@ -1385,6 +1385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSetup: {fileID: 1056164012}
   deckManager: {fileID: 1525802238}
+  gameManager: {fileID: 0}
   hand:
   - {fileID: 1056164010}
   - {fileID: 1662062994}
@@ -3114,7 +3115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &536101180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3217,7 +3218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &563023997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4790,7 +4791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a388229b454d1f049b43ecc7d38898e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 1125393154}
 --- !u!114 &806424680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4835,13 +4836,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: saveData, Assembly-CSharp
-        m_MethodName: saveToJSON
-        m_Mode: 1
+      - m_Target: {fileID: 806424679}
+        m_TargetAssemblyTypeName: menuButtons, Assembly-CSharp
+        m_MethodName: restartGame2
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1770753682}
+          m_ObjectArgumentAssemblyTypeName: gameManagerTwo, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6340,10 +6341,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22124d246bb624f48b1b4a52c9281bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitButton: {fileID: 0}
-  standButton: {fileID: 0}
-  dealButton: {fileID: 0}
-  swapButton: {fileID: 0}
+  hitButton: {fileID: 2146194541}
+  standButton: {fileID: 81123755}
+  dealButton: {fileID: 893823967}
+  swapButton: {fileID: 2069302106}
   playerController: {fileID: 0}
   dealerController: {fileID: 0}
   playerScoreText: {fileID: 0}
@@ -6356,9 +6357,10 @@ MonoBehaviour:
   winText: {fileID: 0}
   playerFinalScoreText: {fileID: 0}
   dealerFinalScoreText: {fileID: 0}
-  winScreen: {fileID: 0}
-  gameScreen: {fileID: 0}
-  cardSwapButtons: {fileID: 0}
+  winScreen: {fileID: 536101179}
+  gameScreen: {fileID: 563023996}
+  dealerSwapButtons: []
+  playerSwapButtons: []
   dealerPointCounter: 0
   playerPointCounter: 0
   playerScore: 0
@@ -6452,7 +6454,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 3000, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1224460507
 MonoBehaviour:
@@ -6821,6 +6823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSetup: {fileID: 939030381}
   deckManager: {fileID: 1525802238}
+  gameManager: {fileID: 0}
   hand:
   - {fileID: 939030378}
   - {fileID: 1961716475}
@@ -7418,7 +7421,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000061035, y: 0.26666}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 3000, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1474143051
 MonoBehaviour:
@@ -8442,7 +8445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a388229b454d1f049b43ecc7d38898e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 1125393154}
 --- !u!114 &1664557627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8489,11 +8492,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1664557626}
         m_TargetAssemblyTypeName: menuButtons, Assembly-CSharp
-        m_MethodName: restartGame
-        m_Mode: 1
+        m_MethodName: restartGame2
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1770753682}
+          m_ObjectArgumentAssemblyTypeName: gameManagerTwo, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10149,6 +10152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSetup: {fileID: 245925952}
   deckManager: {fileID: 1525802238}
+  gameManager: {fileID: 0}
   hand:
   - {fileID: 245925949}
   - {fileID: 1580951200}
@@ -10668,7 +10672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2069302105
 RectTransform:
   m_ObjectHideFlags: 0

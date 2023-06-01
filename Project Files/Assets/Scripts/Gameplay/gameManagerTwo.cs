@@ -52,6 +52,7 @@ public class gameManagerTwo : MonoBehaviour
 
     void Start()
     {
+        // Enable/Disable UI elements
         winScreen.SetActive(false);
         gameScreen.SetActive(true);
         dealButton.gameObject.SetActive(true);
@@ -59,10 +60,10 @@ public class gameManagerTwo : MonoBehaviour
         standButton.gameObject.SetActive(false);
         swapButton.gameObject.SetActive(false);
 
+        // Set players name for persisent storage
         playerNewName = persistentName.scene1.playerName;
         player2NewName = persistentName.scene1.player2Name;
 
-        Debug.Log("player name is" + playerNewName);
         dealClick();
     }
 
@@ -91,7 +92,7 @@ public class gameManagerTwo : MonoBehaviour
         player2WinsText.SetText(player2PointCounter.ToString()); 
         dealerWinsText.SetText(dealerPointCounter.ToString());
 
-
+        // Enable/Disable UI elements
         hitButton2.gameObject.SetActive(false);
         standButton2.gameObject.SetActive(false);
         dealButton.gameObject.SetActive(false);
@@ -103,21 +104,21 @@ public class gameManagerTwo : MonoBehaviour
         dealerBustCheck = false;
 
         resultText.text = playerNewName + "'s turn";
-        Debug.Log(player2NewName);
     }
 
-    // Plays when the "hit" button is clicked, gets a card for the player
+    // Plays when the "hit" button is clicked, gets a card for player 1
     public void hitClick()
     {
-        Debug.Log("hit clicked");
         playerController.getCard();
         playerScoreText.SetText(playerController.handValue.ToString());
         
+        // if player busts then
         if (playerController.handValue > 20)
         {
             turnText.text = player2NewName + " Turn " + turncheck;
             playerBustCheck = true;
 
+            // Enable/Disable UI elements
             hitButton.gameObject.SetActive(false);
             standButton.gameObject.SetActive(false);
             hitButton2.gameObject.SetActive(true);
@@ -126,22 +127,23 @@ public class gameManagerTwo : MonoBehaviour
         }
     }
 
-    // Plays when the "stand" button is clicked, ends turn for the player
+    // Plays when the "stand" button is clicked, ends turn for player 1
     public void standClick()
     {
+        // Enable/Disable UI elements
         turnText.text = player2NewName + " Turn " + turncheck;
-
         hitButton.gameObject.SetActive(false);
         standButton.gameObject.SetActive(false);
         hitButton2.gameObject.SetActive(true);
         standButton2.gameObject.SetActive(true);
     }
-
+    // Plays when the "hit" button is clicked, gets a card for player 2
     public void hitClick2()
     {
         player2Controller.getCard();
         player2ScoreText.SetText(player2Controller.handValue.ToString());
         
+        // if player busts then
         if (player2Controller.handValue > 20)
         {
             turnText.text = "Dealer Turn " + turncheck;
@@ -150,7 +152,7 @@ public class gameManagerTwo : MonoBehaviour
         }
     }
 
-    // Plays when the "stand" button is clicked, ends turn for the player
+    // Plays when the "stand" button is clicked, ends turn for player 2
     public void standClick2()
     {
         hitButton.gameObject.SetActive(false);
@@ -163,7 +165,8 @@ public class gameManagerTwo : MonoBehaviour
     // Dealer's Turn
     private void hitDealer()
     {
-        while (dealerController.handValue < playerController.handValue)
+        // When players are beating dealer, dealer draws a card
+        while (dealerController.handValue < playerController.handValue || dealerController.handValue < player2Controller.handValue)
         {
             dealerController.getCard();
         }
@@ -174,6 +177,7 @@ public class gameManagerTwo : MonoBehaviour
             dealerBustCheck = true;
         }
 
+        // Enable/Disable UI elements
         dealButton.gameObject.SetActive(true);
         hitButton.gameObject.SetActive(false);
         standButton.gameObject.SetActive(false);
@@ -185,6 +189,7 @@ public class gameManagerTwo : MonoBehaviour
     // Checks who won the round
     private void winnerCheck()
     {
+        // Check who busted and sets thier score to an auto lose score
         if (dealerBustCheck == true)
         {
             dealerController.handValue = -1;
@@ -230,33 +235,35 @@ public class gameManagerTwo : MonoBehaviour
         gameOver();
     }
 
-
+   // Check if game is over
     public void gameOver()
     {
-        if (playerPointCounter >= 10)
+        if (playerPointCounter >= 100)
         {
+            // Enable/Disable UI elements
             winScreen.SetActive(true);
             gameScreen.SetActive(false);
             winText.text = playerNewName + " Wins";
+
             playerScore += 1;
             playerFinalScoreText.SetText(playerPointCounter.ToString());
             player2FinalScoreText.SetText(playerPointCounter.ToString()); 
             dealerFinalScoreText.SetText(dealerPointCounter.ToString());
-            Debug.Log("player's current wins are" + playerScore);
-
         }
 
-        else if (player2PointCounter >= 10)
+        else if (player2PointCounter >= 100)
         {
+            // Enable/Disable UI elements
             winScreen.SetActive(true);
             gameScreen.SetActive(false);
             winText.text = player2NewName + " Wins";
+
             player2Score += 1;
             playerFinalScoreText.SetText(playerPointCounter.ToString()); 
             player2FinalScoreText.SetText(playerPointCounter.ToString()); 
             dealerFinalScoreText.SetText(dealerPointCounter.ToString());
-            Debug.Log("player 2 current wins are" + player2Score);
 
+            // Saves player 2 name and score
             gameManager.playerNewName = player2NewName;
             gameManager.playerScore = player2Score;
 
@@ -264,9 +271,11 @@ public class gameManagerTwo : MonoBehaviour
 
         else if (dealerPointCounter >= 100)
         {
+            // Enable/Disable UI elements
             winScreen.SetActive(true);
             gameScreen.SetActive(false);
             winText.text = "Dealer Wins";
+
             playerFinalScoreText.SetText(playerPointCounter.ToString()); 
             player2FinalScoreText.SetText(playerPointCounter.ToString()); 
             dealerFinalScoreText.SetText(dealerPointCounter.ToString());

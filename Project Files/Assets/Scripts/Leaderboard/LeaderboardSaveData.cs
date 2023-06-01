@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// Creates a new list specifically for the leaderbaords use
 [Serializable]
 public class LeaderboardSaveData
 {

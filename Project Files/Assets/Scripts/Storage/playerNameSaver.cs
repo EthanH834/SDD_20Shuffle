@@ -11,9 +11,8 @@ public class playerNameSaver : MonoBehaviour
 
     public void Awake()
     {
+        // Save inputfields and display them on the game scene
         displayPlayerName.text = persistentName.scene1.playerName;
         displayPlayer2Name.text = persistentName.scene1.player2Name;
-        Debug.Log(displayPlayerName);
-        Debug.Log(displayPlayer2Name);
     }
 }
