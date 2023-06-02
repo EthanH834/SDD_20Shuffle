@@ -33,7 +33,10 @@ public class gameManagerTwo : MonoBehaviour
 
     public GameObject winScreen;
     public GameObject gameScreen;
-    public GameObject cardSwapButtons;
+    public GameObject dealerSwapCard1;
+    public GameObject dealerSwapCard2;
+    public GameObject playerSwapCard;
+    public GameObject player2SwapCard;
 
     public int dealerPointCounter = 0;
     public int playerPointCounter = 0;
@@ -47,8 +50,11 @@ public class gameManagerTwo : MonoBehaviour
     bool playerBustCheck = false;
     bool player2BustCheck = false;
     bool dealerBustCheck = false;
-    int turncheck = 1;
+    bool playerTurnCheck = false;
+    bool player2TurnCheck = false;
 
+    int turncheck = 1;
+    int jokerCheck;
 
     void Start()
     {
@@ -63,6 +69,9 @@ public class gameManagerTwo : MonoBehaviour
         // Set players name for persisent storage
         playerNewName = persistentName.scene1.playerName;
         player2NewName = persistentName.scene1.player2Name;
+
+        playerTurnCheck = true;
+        player2TurnCheck = false;
 
         dealClick();
     }
@@ -102,8 +111,19 @@ public class gameManagerTwo : MonoBehaviour
         playerBustCheck = false;
         player2BustCheck = false;
         dealerBustCheck = false;
+        playerTurnCheck = true;
+        player2TurnCheck = false;
 
         resultText.text = playerNewName + "'s turn";
+        if (playerController.jokerFlag == true)
+        {
+            swapActive();
+        }
+
+        if (player2Controller.jokerFlag == true)
+        {
+            swapActive();
+        }
     }
 
     // Plays when the "hit" button is clicked, gets a card for player 1
@@ -117,6 +137,8 @@ public class gameManagerTwo : MonoBehaviour
         {
             turnText.text = player2NewName + " Turn " + turncheck;
             playerBustCheck = true;
+            playerTurnCheck = false;
+            player2TurnCheck = true;
 
             // Enable/Disable UI elements
             hitButton.gameObject.SetActive(false);
@@ -124,6 +146,11 @@ public class gameManagerTwo : MonoBehaviour
             hitButton2.gameObject.SetActive(true);
             standButton2.gameObject.SetActive(true);
         
+        }
+
+        if (playerController.jokerFlag == true)
+        {
+            swapActive();
         }
     }
 
@@ -136,6 +163,9 @@ public class gameManagerTwo : MonoBehaviour
         standButton.gameObject.SetActive(false);
         hitButton2.gameObject.SetActive(true);
         standButton2.gameObject.SetActive(true);
+
+        playerTurnCheck = false;
+        player2TurnCheck = true;
     }
     // Plays when the "hit" button is clicked, gets a card for player 2
     public void hitClick2()
@@ -148,7 +178,14 @@ public class gameManagerTwo : MonoBehaviour
         {
             turnText.text = "Dealer Turn " + turncheck;
             player2BustCheck = true;
+            playerTurnCheck = false;
+            player2TurnCheck = false;
             hitDealer();
+        }
+
+        if (player2Controller.jokerFlag == true)
+        {
+            swapActive();
         }
     }
 
@@ -160,6 +197,105 @@ public class gameManagerTwo : MonoBehaviour
         turnText.text = "Dealer Turn " + turncheck;
         hitDealer();
         dealButton.gameObject.SetActive(true);
+        playerTurnCheck = false;
+        player2TurnCheck = false;
+    }
+
+    // Turn on the swap button when joker is found in player's hand
+    public void swapActive()
+    {
+        swapButton.gameObject.SetActive(true);
+    }
+
+    // When the "Swap" button is pressed, turn on card buttons
+    public void swapPressed()
+    {
+        swapButton.gameObject.SetActive(false);
+        dealerSwapCard1.gameObject.SetActive(true);
+        dealerSwapCard2.gameObject.SetActive(true);  
+        resultText.text = "Click Dealer Card to Swap With";
+    }
+
+    // Swaps the dealers first card
+    public void swapCard1()
+    {   
+        dealerSwapCard1.gameObject.SetActive(false);
+        dealerSwapCard2.gameObject.SetActive(false);  
+
+        if (playerTurnCheck = true)
+        {
+            // Swap cards
+            Vector3 tempPos = dealerSwapCard1.transform.parent.position;
+            dealerSwapCard1.transform.parent.position = playerSwapCard.transform.parent.position;
+            playerSwapCard.transform.parent.position = tempPos;
+
+            // Change hand values to match
+            dealerController.handValue = dealerController.handValue - dealerController.savedCardValue + playerController.savedCardValue;
+            playerController.handValue = playerController.handValue - playerController.savedCardValue + dealerController.savedCardValue;
+
+            // Change UI to match hand values
+            playerScoreText.SetText(playerController.handValue.ToString());
+            dealerScoreText.SetText(dealerController.handValue.ToString());
+            resultText.text = "Cards Swapped";
+        }
+
+        if (player2TurnCheck = true)
+        {
+            // Swap cards
+            Vector3 tempPos = dealerSwapCard1.transform.parent.position;
+            dealerSwapCard1.transform.parent.position = player2SwapCard.transform.parent.position;
+            player2SwapCard.transform.parent.position = tempPos;
+
+            // Change hand values to match
+            dealerController.handValue = dealerController.handValue - dealerController.savedCardValue + player2Controller.savedCardValue;
+            playerController.handValue = player2Controller.handValue - player2Controller.savedCardValue + dealerController.savedCardValue;
+
+            // Change UI to match hand values
+            playerScoreText.SetText(player2Controller.handValue.ToString());
+            dealerScoreText.SetText(dealerController.handValue.ToString());
+            resultText.text = "Cards Swapped";
+        }
+    }
+
+    //  Swaps the dealers second card
+    public void swapCard2()
+    {
+        dealerSwapCard1.gameObject.SetActive(false);
+        dealerSwapCard2.gameObject.SetActive(false);  
+
+        if (playerTurnCheck = true)
+        {
+            // Swap cards
+            Vector3 tempPos = dealerSwapCard2.transform.position;
+            dealerSwapCard2.transform.position = playerSwapCard.transform.position;
+            playerSwapCard.transform.position = tempPos;
+
+            // Change hand values to match
+            dealerController.handValue = dealerController.handValue - dealerController.savedCardValue2 + playerController.savedCardValue;
+            playerController.handValue = playerController.handValue - playerController.savedCardValue + dealerController.savedCardValue2;
+
+            // Change UI to match hand values
+            playerScoreText.SetText(playerController.handValue.ToString());
+            dealerScoreText.SetText(dealerController.handValue.ToString());
+            resultText.text = "Cards Swapped";
+        }
+
+        if (player2TurnCheck = true)
+        {
+            // Swap cards
+            Vector3 tempPos = dealerSwapCard2.transform.position;
+            dealerSwapCard2.transform.position = player2SwapCard.transform.position;
+            player2SwapCard.transform.position = tempPos;
+
+            // Change hand values to match
+            dealerController.handValue = dealerController.handValue - dealerController.savedCardValue2 + player2Controller.savedCardValue;
+            playerController.handValue = player2Controller.handValue - player2Controller.savedCardValue + dealerController.savedCardValue2;
+
+            // Change UI to match hand values
+            playerScoreText.SetText(player2Controller.handValue.ToString());
+            dealerScoreText.SetText(dealerController.handValue.ToString());
+            resultText.text = "Cards Swapped";
+        }
     }
 
     // Dealer's Turn
@@ -264,9 +400,6 @@ public class gameManagerTwo : MonoBehaviour
             dealerFinalScoreText.SetText(dealerPointCounter.ToString());
 
             // Saves player 2 name and score
-            gameManager.playerNewName = player2NewName;
-            gameManager.playerScore = player2Score;
-
         }
 
         else if (dealerPointCounter >= 100)
@@ -280,6 +413,13 @@ public class gameManagerTwo : MonoBehaviour
             player2FinalScoreText.SetText(playerPointCounter.ToString()); 
             dealerFinalScoreText.SetText(dealerPointCounter.ToString());
         }
+    }
+
+    public void savePlayerData(saveData saveData)
+    {
+        gameManager.playerNewName = player2NewName;
+        gameManager.playerScore = player2Score;
+        saveData.saveAllData();
     }
 }
 

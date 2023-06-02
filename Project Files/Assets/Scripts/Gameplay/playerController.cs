@@ -14,17 +14,24 @@ public class playerController : MonoBehaviour
     public int cardIndex = 0;
     
     int cardCount = 0;
+    public int savedCardValue = 0;
+    public int savedCardValue2 = 0;
+    public bool jokerFlag = false;
 
     public void startHand()
     {
+        jokerFlag = false;
         getCard();
+        savedCardValue = handValue;
         getCard();
+        savedCardValue2 = handValue - savedCardValue;
 
         // Corrects ace check if second card equals 10
         if (handValue > 20)
         {
             handValue = handValue - 10;
         }
+
     }
 
     // Deals a single card
@@ -37,6 +44,12 @@ public class playerController : MonoBehaviour
         if (cardValue == 1 && handValue < 10)  
         {
             cardValue = 11;
+        }
+
+        // Checks if card is a joker
+        if (cardValue == 0)
+        {
+            jokerFlag = true;
         }
 
         cardCount++;

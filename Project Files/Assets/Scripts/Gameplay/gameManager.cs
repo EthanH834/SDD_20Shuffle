@@ -28,8 +28,9 @@ public class gameManager : MonoBehaviour
 
     public GameObject winScreen;
     public GameObject gameScreen;
-    public GameObject[] dealerSwapButtons;
-    public GameObject[] playerSwapButtons;
+    public GameObject dealerSwapCard1;
+    public GameObject dealerSwapCard2;
+    public GameObject playerSwapCard;
 
     public int dealerPointCounter = 0;
     public int playerPointCounter = 0;
@@ -38,7 +39,8 @@ public class gameManager : MonoBehaviour
 
     int jokerCheck;
     int turncheck = 1;
-    bool swapCheck = false;
+    bool playerTurnCheck = false;
+    bool player2TurnCheck = false;
 
     void Start()
     {
@@ -53,6 +55,7 @@ public class gameManager : MonoBehaviour
         // Set player name for persisent storage
         playerNewName = persistentName.scene1.playerName;
 
+        playerTurnCheck = true;
         dealClick();
     }
 
@@ -78,6 +81,12 @@ public class gameManager : MonoBehaviour
         hitButton.gameObject.SetActive(true);
         standButton.gameObject.SetActive(true);
         swapButton.gameObject.SetActive(false);
+        playerTurnCheck = true;
+
+        if (playerController.jokerFlag == true)
+        {
+            swapActive();
+        }
 
     }
 
@@ -99,6 +108,13 @@ public class gameManager : MonoBehaviour
             hitButton.gameObject.SetActive(false);
             standButton.gameObject.SetActive(false);
             gameOver();
+            playerTurnCheck = false;
+            player2TurnCheck = true;
+        }
+
+        if (playerController.jokerFlag == true)
+        {
+            swapActive();
         }
     }
 
@@ -114,12 +130,71 @@ public class gameManager : MonoBehaviour
 
         // Enable/Disable UI elements
         dealButton.gameObject.SetActive(true);
+        playerTurnCheck = false;
+        player2TurnCheck = true;
     }
 
+    // Turn on the swap button when joker is found in player's hand
+    public void swapActive()
+    {
+        swapButton.gameObject.SetActive(true);
+    }
+
+    // When the "Swap" button is pressed, turn on card buttons
+    public void swapPressed()
+    {
+        swapButton.gameObject.SetActive(false);
+        dealerSwapCard1.gameObject.SetActive(true);
+        dealerSwapCard2.gameObject.SetActive(true);  
+        resultText.text = "Click Dealer Card to Swap With";
+    }
+
+    // Swaps the dealers first card
+    public void swapCard1()
+    {
+        dealerSwapCard1.gameObject.SetActive(false);
+        dealerSwapCard2.gameObject.SetActive(false);  
+        
+        // Swap cards
+        Vector3 tempPos = dealerSwapCard1.transform.parent.position;
+        dealerSwapCard1.transform.parent.position = playerSwapCard.transform.parent.position;
+        playerSwapCard.transform.parent.position = tempPos;
+
+        // Change hand values to match
+        dealerController.handValue = dealerController.handValue - dealerController.savedCardValue + playerController.savedCardValue;
+        playerController.handValue = playerController.handValue - playerController.savedCardValue + dealerController.savedCardValue;
+
+        // Change UI to match hand values
+        playerScoreText.SetText(playerController.handValue.ToString());
+        dealerScoreText.SetText(dealerController.handValue.ToString());
+        resultText.text = "Cards Swapped";
+    }
+
+    //  Swaps the dealers second card
+    public void swapCard2()
+    {
+        dealerSwapCard1.gameObject.SetActive(false);
+        dealerSwapCard2.gameObject.SetActive(false);  
+        
+        // Swap cards
+        Vector3 tempPos = dealerSwapCard2.transform.position;
+        dealerSwapCard2.transform.position = playerSwapCard.transform.position;
+        playerSwapCard.transform.position = tempPos;
+
+        // Change hand values to match
+        dealerController.handValue = dealerController.handValue - dealerController.savedCardValue2 + playerController.savedCardValue;
+        playerController.handValue = playerController.handValue - playerController.savedCardValue + dealerController.savedCardValue2;
+
+        // Change UI to match hand values
+        playerScoreText.SetText(playerController.handValue.ToString());
+        dealerScoreText.SetText(dealerController.handValue.ToString());
+        resultText.text = "Cards Swapped";
+    }
 
     // Dealer's Turn
     private void hitDealer()
     {
+        playerTurnCheck = false;
         // When player is beating dealer, dealer draws a card
         while (dealerController.handValue < playerController.handValue)
         {
